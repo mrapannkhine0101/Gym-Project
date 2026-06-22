@@ -1,0 +1,47 @@
+{% extends 'partial/base.html' %}
+{% load static %}
+{% block content %}
+    <a href="{% url 'create_profile' %}" class="btn btn-primary float-end mb-3">Create Profile</a>
+
+<div class="container d-flex justify-content-center align-items-center mt-5" style="height: 100%;">
+    {% for profile in profiles %}
+        <div class="profile-card" style="display: flex; align-items: center;">
+            <img src="{% static 'image/mra.png' %}" style="width: 50%; height: 100%; object-fit: cover;" class="profile-image" alt="Profile">
+            <div class="card-body-custom">
+                <h5 class="profile-name">
+                    {{ profile.user.username }}
+                    <i class="bi bi-patch-check-fill verified"></i>
+                </h5>
+                <p class="profile-text">
+                    {{ profile.address }}   
+                </p>
+                <div class="profile-stats">
+                    <div>
+                        <strong>Age</strong>
+                        <span>{{ profile.age }} years</span>
+                    </div>
+                    <div>
+                        <strong>Phone</strong>
+                        <span>{{ profile.phone }}</span>
+                    </div>
+                    <div>
+                        <strong>Weight</strong>
+                        <span>{{ profile.weight }} kg</span>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    
+                    <div>
+                        <strong>Height</strong>
+                        <span>{{ profile.height }} cm</span>
+                    </div>
+                    <button class="follow-btn">
+                        Follow <i class="bi bi-plus"></i>
+                    </button>
+                </div> 
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

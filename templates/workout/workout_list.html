@@ -1,0 +1,52 @@
+{% extends 'partial/base.html' %}
+{% block content %}
+
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Gym Workout List</h2>
+
+        <a href="{% url 'add_workout' %}"
+           class="btn btn-primary">
+           Add Workout
+        </a>
+    </div>
+
+    <div class="row">
+
+        {% for workout in workouts %}
+
+        <div class="col-md-3 mt-3">
+
+            <div class="card shadow mb-4" style="height: 350px;">
+
+                {% if workout.image %}
+                <img src="{{ workout.image.url }}" style="height: 150px; object-fit: cover;"
+                     class="card-img-top">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5>{{ workout.workout_name }}</h5>
+
+                    <p>
+                        Category : {{ workout.category }}
+                    </p>
+
+                    <p>
+                        Sets : {{ workout.sets }}
+                    </p>
+
+                    <p>
+                        Reps : {{ workout.reps }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

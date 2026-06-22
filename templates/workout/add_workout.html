@@ -1,0 +1,53 @@
+{% extends 'partial/base.html' %}
+{% block content %}
+
+    <div class="card shadow mt-5" style="max-width: 600px; margin: auto;">
+        <div class="card-header">
+            <h3>Add Workout</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="workout_name" class="form-label">Workout Name</label>
+                    <input type="text" class="form-control" id="workout_name" name="workout_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="" selected disabled>Select Category</option>
+                        <option value="chest">Chest</option>
+                        <option value="back">Back</option>
+                        <option value="legs">Legs</option>
+                        <option value="shoulder">Shoulders</option>
+                        <option value="biceps">Biceps</option>
+                        <option value="triceps">Triceps</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="set" class="form-label">Sets</label>
+                    <input type="text" class="form-control" id="set" name="set" required>
+                </div>
+                <div class="mb-3">
+                    <label for="rep" class="form-label">Reps</label>
+                    <input type="text" class="form-control" id="rep" name="rep" required>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image" required>
+                </div>
+                <!-- {{ form.as_p }} -->
+
+                <button class="btn btn-success" type="submit">
+                    Save Workout
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}
