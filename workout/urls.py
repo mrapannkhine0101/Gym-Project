@@ -11,5 +11,5 @@ urlpatterns = [
     path('detail/<int:id>/', views.workout_detail, name='workout_detail'),
     path('profile/', views.profile, name='profile'),
     path('profile/create/', views.create_profile, name='create_profile'),
-    # path('profile/edit/', views.edit_profile, name='edit_profile'),
-    ]
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('delete_account/', views.delete_account, name='delete_account'),]

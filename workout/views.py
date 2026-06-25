@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from .models import Profile, Workout
-from .forms import WorkoutForm
+from .forms import ProfileForm
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -83,7 +83,9 @@ def workout_list(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-
+    profile, created = Profile.objects.get_or_create(
+    user=request.user
+    )
     total_users = User.objects.count()
 
     total_workouts = Workout.objects.count()
@@ -98,7 +100,8 @@ def dashboard(request):
         'total_profiles': total_profiles,
         'total_chest_workouts': total_chest_workouts,
         'total_legs_workouts': total_legs_workouts,
-        'recent_workouts': recent_workouts
+        'recent_workouts': recent_workouts, 
+        'profile': profile
     }
     print(Workout.objects.values_list('category', flat=True))
     return render(
@@ -169,36 +172,41 @@ def create_profile(request):
             image=image
         )
         return redirect('profile')
-    return render(request, 'workout/create_profile.html', {'profiles': profiles})
+    return render(request, 'profile/create_profile.html', {'profiles': profiles})
   
 @login_required(login_url='login')
 def profile(request):
     profiles = Profile.objects.filter(user=request.user)
-    # if request.method == 'POST':
-    #     # Handle profile update logic here
-    #     phone = request.POST.get('phone')
-    #     age = request.POST.get('age')
-    #     address = request.POST.get('address')
-    #     goal = request.POST.get('goal')
-    #     height = request.POST.get('height')
-    #     weight = request.POST.get('weight')
-    #     image = request.FILES.get('image')
-        
-    #     # Update the user's profile with the new information 
-    #     Profile.objects.create(
-    #         user=request.user,
-    #         phone=phone,
-    #         address=address,
-    #         goal=goal,
-    #         age=age,
-    #         weight=weight,
-    #         height=height,
-    #         image=image
-    #     )
- 
-    #     return redirect('profile')  # Redirect to the profile page after updating
     return render(
         request,
-        'workout/profile.html',
+        'profile/profile.html',
         {'profiles': profiles}
     )
+
+def edit_profile(request):
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'profile/edit_profile.html', {'form': form})
+
+@login_required(login_url='login')
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request)
+        user.delete()
+        return redirect('login')
+    return render(request, 'profile/delete_account.html')
+    

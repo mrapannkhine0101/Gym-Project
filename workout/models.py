@@ -30,22 +30,22 @@ class Profile(models.Model):
     )
 
     phone = models.CharField(
-        max_length=20
+        max_length=20, null=True, blank=True
     )
 
-    age = models.IntegerField()
+    age = models.IntegerField(null=True, blank=True)
 
     address = models.CharField(
-        max_length=255
+        max_length=255, null=True, blank=True
     )
 
     goal = models.CharField(
-        max_length=100
+        max_length=100, null=True, blank=True
     )
 
-    height = models.FloatField()
+    height = models.FloatField(null=True, blank=True)
 
-    weight = models.FloatField()
+    weight = models.FloatField(null=True, blank=True)
 
     image = models.ImageField(
         upload_to='profile/'
