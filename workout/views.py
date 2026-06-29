@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
-from .models import Profile, Workout
-from .forms import ProfileForm
+from .models import Profile, Workout, Workoutplan
+from .forms import ProfileForm, WorkoutplanForm, WorkoutForm
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -143,11 +143,29 @@ def workout_detail(request,id):
 
     workout = Workout.objects.get(id=id)
 
-    return render(
-        request,
-        'workout/detail.html',
-        {'workout': workout}
-    )
+    return render( request,'workout/detail.html', {'workout': workout})
+
+@login_required(login_url='login')
+def edit_workout(request,pk):
+    workout = Workout.objects.get(id=pk)
+    if request.method == 'POST':
+        form = WorkoutForm(request.POST, request.FILES, instance=workout)
+        if form.is_valid:
+            form.save()
+            return redirect('workout_list')
+    else:
+        form = WorkoutForm(instance=workout)
+
+    return render(request, 'workout/edit_workout.html', {'form':form})
+
+@login_required(login_url='login')
+def delete_workout(request,id):
+    workout = Workout.objects.get(id=id)
+    if request.method == 'POST':
+
+        workout.delete()
+        return redirect('workout_list')
+    return render(request, 'workout/delete_workout.html')
 
 @login_required(login_url='login')
 def create_profile(request):
@@ -210,3 +228,45 @@ def delete_account(request):
         return redirect('login')
     return render(request, 'profile/delete_account.html')
     
+# plan
+@login_required(login_url='login')
+def add_plan(request):
+    workouts = Workout.objects.all()
+    if request.method == 'POST':
+        form = WorkoutplanForm(request.POST)
+
+        if form.is_valid():
+
+            plan = form.save(commit=False)
+            plan.user = request.user
+            plan.save()
+
+            return redirect('plan_list')
+        
+
+    else:
+        form = WorkoutplanForm()
+    print(request.post)
+    context = {
+        'workouts':workouts,
+        'form':form,
+    }
+    return render(
+        request,
+        'workoutplan/add_plan.html',
+        context
+    )
+
+@login_required(login_url='login')
+def plan_list(request):
+
+    plans = Workoutplan.objects.filter(
+        user=request.user
+    ).order_by('day')
+
+    context = {
+        'plans': plans
+    }
+
+    return render(request, 'workoutplan/plan_list.html',context
+    )

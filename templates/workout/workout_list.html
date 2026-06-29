@@ -1,7 +1,7 @@
 {% extends 'partial/base.html' %}
 {% block content %}
 
-    <div class="d-flex justify-content-between mb-3">
+    <div class="d-flex justify-content-between mb-3 m-5">
         <h2>Gym Workout List</h2>
 
         <a href="{% url 'add_workout' %}"
@@ -10,43 +10,39 @@
         </a>
     </div>
 
-    <div class="row">
-
-        {% for workout in workouts %}
-
-        <div class="col-md-3 mt-3">
-
-            <div class="card shadow mb-4" style="height: 350px;">
-
-                {% if workout.image %}
-                <img src="{{ workout.image.url }}" style="height: 150px; object-fit: cover;"
-                     class="card-img-top">
-                {% endif %}
-
-                <div class="card-body">
-
-                    <h5>{{ workout.workout_name }}</h5>
-
-                    <p>
-                        Category : {{ workout.category }}
-                    </p>
-
-                    <p>
-                        Sets : {{ workout.sets }}
-                    </p>
-
-                    <p>
-                        Reps : {{ workout.reps }}
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
+    <div class="card table-card m-5">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Workout Name</th>
+                    <th>Category</th>
+                    <th>Sets</th>
+                    <th>Reps</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for workout in workouts %}
+                <tr>
+                    <td>{{ workout.workout_name }}</td>
+                    <td>{{ workout.category }}</td>
+                    <td>{{ workout.sets }}</td>
+                    <td>{{ workout.reps }}</td>
+                    <td>
+                        {% if workout.image %}
+                            <img src="{{ workout.image.url }}" style="height: 60px; width:60px ;"
+                                class="card-img-top">
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'edit_workout' workout.pk %}" class="btn btn-success">Edit</a>
+                        <a href="{% url 'delete_workout' workout.id %}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
 {% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'partial/base.html' %}
+{% load static %}
+{% block content %}
+    
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        
+            <div class="profile-card" style="display: flex; align-items: center;">
+                <div class="profile-image">
+                    <img src="{{workout.image.url}}" width="300px" alt="">
+                    <div class="card-body-custom mt-3">
+                    
+                        <p class="profile-text-bold">
+                            {{ workout.workout_name }}   
+                        </p>
+                        <div class="profile-stats">
+                            <div>
+                                <strong>Category</strong>
+                                <span>{{ workout.category }} years</span>
+                            </div>
+                            <div>
+                                <strong>Sets</strong>
+                                <span>{{ workout.sets }}</span>
+                            </div>
+                            <div>
+                                <strong>Reps</strong>
+                                <span>{{ workout.reps }} kg</span>
+                            </div>
+                        </div>
+                        <div class="profile-stats">
+                            <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">
+                                Dashboard
+                            </a>
+                        </div> 
+                    </div>
+            </div>
+    </div>
+{% endblock %}

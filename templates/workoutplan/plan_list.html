@@ -1,0 +1,70 @@
+{% extends 'partial/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-4">
+        <h2>Workout Plans</h2>
+
+        <a href="{% url 'add_plan' %}"
+           class="btn btn-primary">
+            Add Plan
+        </a>
+    </div>
+
+    <div class="row">
+
+        {% for plan in plans %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-body">
+
+                    <h5 class="text-primary">
+                        {{ plan.day }}
+                    </h5>
+
+                    <h4>
+                        {{ plan.title }}
+                    </h4>
+
+                    <p>
+                        {{ plan.description }}
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white">
+
+                    <a href=""
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href=""
+                       class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="alert alert-info">
+            No workout plans available.
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

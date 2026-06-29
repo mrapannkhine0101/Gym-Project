@@ -101,7 +101,7 @@
 
                     <tr>
 
-                        <td>{{ workout.workout_name }}</td>
+                        <td><a href="{% url 'workout_detail' workout.id %}" class="btn btn-sm btn-outline-info">{{ workout.workout_name }}</a></td>
                         <td>{{ workout.category }}</td>
                         <td>{{ workout.sets }}</td>
                         <td>{{ workout.reps }}</td>

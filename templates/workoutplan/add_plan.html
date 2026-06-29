@@ -1,0 +1,63 @@
+{% extends 'partial/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h3>Workout Plan Form</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="day" class="label">Day</label>
+                    <select name="day" id="" class="form-select">
+                        <option value="" selected disabled>Select Day</option>
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                        <option value="saturday">Saturday</option>
+                        <option value="sunday">Sunday</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control" id="title">
+                </div>
+                <div class="mb-3" class="form-label">
+                    <label for="description">Description</label>
+                    <textarea name="" rows="5" class="form-control" id=""></textarea>
+                </div>
+                <div class="mb-3" class="form-label">
+                    <label for="workout">Workout</label>
+                    <select name="workout" id="workout" class="form-select">
+                        {% for workout in workouts %}
+                        <option value="{{ workout.id }}">
+                            {{ workout.workout_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    Save
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

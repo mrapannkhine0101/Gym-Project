@@ -9,6 +9,7 @@ class Workout(models.Model):
         ('Biceps', 'Biceps'),
         ('Triceps', 'Triceps'),
         ('Legs', 'Legs'),
+        ('Cardio', 'Carido')
     )
 
     workout_name = models.CharField(max_length=100)
@@ -53,3 +54,24 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Workoutplan(models.Model):
+    Day_CHOICE = (
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+        ('Sunday', 'Sunday')
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    day = models.CharField(max_length=20, choices=Day_CHOICE,  null=True, blank=True)
+    title = models.CharField(max_length=100, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    workout = models.ForeignKey('Workout', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.day}"
+    
