@@ -39,13 +39,12 @@
                     <label for="image" class="form-label">Image</label>
                     <input type="file" class="form-control" id="image" name="image" required>
                 </div> -->
-                <div class="form-control">
                      {{ form.as_p }}
-                </div>
 
                 <button class="btn btn-success" type="submit">
                     update
                 </button>
+                <a href="{% url 'workout_list' %}" class="btn btn-warning">Cancel</a>
 
             </form>
 

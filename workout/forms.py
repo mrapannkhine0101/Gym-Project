@@ -4,7 +4,14 @@ from .models import Workout, Profile, Workoutplan
 class WorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
-        fields = '__all__'
+        fields = ['workout_name', 'category', 'sets', 'reps', 'image']
+        widgets = {
+            'workout_name': forms.TextInput(attrs={'class':'form-control', 'placeholder':'workout name'}),
+            'category': forms.Select(attrs={'class':'form-select'}),
+            'sets': forms.NumberInput(attrs={'class':'form-control'}),
+            'reps': forms.NumberInput(attrs={'class':'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class':'form-control'}),
+        }
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -12,7 +19,7 @@ class ProfileForm(forms.ModelForm):
         fields = ['phone', 'age', 'address', 'goal', 'height', 'weight', 'image']
         widgets = {
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'age': forms.NumberInput(attrs={'class': 'form-control'}),
+            'age': forms.NumberInput(attrs={'class': 'form-control',}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
             'goal': forms.TextInput(attrs={'class': 'form-control'}),
             'height': forms.NumberInput(attrs={'class': 'form-control'}),

@@ -57,30 +57,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-@login_required(login_url='login')
-def workout_list(request):
-
-    query = request.GET.get('q')
-
-    workouts = Workout.objects.all()
-    category = request.GET.get('category')
-
-    if category:
-        workouts = workouts.filter(
-            category=category
-        )
-
-        if query:
-            workouts = workouts.filter(
-                Q(name__icontains=query)
-        )
-
-    return render(
-        request,
-        'workout/list.html',
-        {'workouts': workouts}
-    )
-
+# start dashboard
 @login_required(login_url='login')
 def dashboard(request):
     profile, created = Profile.objects.get_or_create(
@@ -109,7 +86,35 @@ def dashboard(request):
         'dashboard/dashboard.html',
         context
     )
+# end dashboard
 
+# start workout
+# @login_required(login_url='login')
+# def workout_list(request):
+
+#     query = request.GET.get('q')
+
+#     workouts = Workout.objects.all()
+#     category = request.GET.get('category')
+
+#     if category:
+#         workouts = workouts.filter(
+#             category=category
+#         )
+
+#         if query:
+#             workouts = workouts.filter(
+#                 Q(name__icontains=query)
+#         )
+
+#     return render(
+#         request,
+#         'workout/list.html',
+#         {'workouts': workouts}
+#     )
+
+# start workout
+# work list
 @login_required(login_url='login')
 def workout_list(request):
     workouts = Workout.objects.all()
@@ -119,6 +124,7 @@ def workout_list(request):
 
     return render(request, 'workout/workout_list.html', context)
 
+# workout add
 @login_required(login_url='login')
 def add_workout(request):
     if request.method == 'POST':
@@ -138,6 +144,7 @@ def add_workout(request):
         return redirect('workout_list')
     return render(request, 'workout/add_workout.html')
 
+# workout detail
 @login_required(login_url='login')  
 def workout_detail(request,id):
 
@@ -145,6 +152,7 @@ def workout_detail(request,id):
 
     return render( request,'workout/detail.html', {'workout': workout})
 
+# edit workout
 @login_required(login_url='login')
 def edit_workout(request,pk):
     workout = Workout.objects.get(id=pk)
@@ -158,6 +166,7 @@ def edit_workout(request,pk):
 
     return render(request, 'workout/edit_workout.html', {'form':form})
 
+# delete workout
 @login_required(login_url='login')
 def delete_workout(request,id):
     workout = Workout.objects.get(id=id)
@@ -167,6 +176,10 @@ def delete_workout(request,id):
         return redirect('workout_list')
     return render(request, 'workout/delete_workout.html')
 
+# end workout
+
+# start profile
+# create profile
 @login_required(login_url='login')
 def create_profile(request):
     profiles = Profile.objects.all()
@@ -191,7 +204,8 @@ def create_profile(request):
         )
         return redirect('profile')
     return render(request, 'profile/create_profile.html', {'profiles': profiles})
-  
+
+# profile detail
 @login_required(login_url='login')
 def profile(request):
     profiles = Profile.objects.filter(user=request.user)
@@ -201,6 +215,7 @@ def profile(request):
         {'profiles': profiles}
     )
 
+@login_required(login_url='login')
 def edit_profile(request):
     profile = get_object_or_404(
         Profile,
@@ -219,6 +234,7 @@ def edit_profile(request):
 
     return render(request, 'profile/edit_profile.html', {'form': form})
 
+# delete profile account
 @login_required(login_url='login')
 def delete_account(request):
     if request.method == 'POST':
@@ -233,8 +249,9 @@ def delete_account(request):
 def add_plan(request):
     workouts = Workout.objects.all()
     if request.method == 'POST':
+        
         form = WorkoutplanForm(request.POST)
-
+        print(form.is_valid()) 
         if form.is_valid():
 
             plan = form.save(commit=False)
@@ -242,21 +259,21 @@ def add_plan(request):
             plan.save()
 
             return redirect('plan_list')
-        
-
+    
     else:
         form = WorkoutplanForm()
-    print(request.post)
+        
     context = {
-        'workouts':workouts,
-        'form':form,
-    }
+            'workouts':workouts,
+            'form':form,
+        }
     return render(
         request,
         'workoutplan/add_plan.html',
         context
     )
 
+# plan list
 @login_required(login_url='login')
 def plan_list(request):
 

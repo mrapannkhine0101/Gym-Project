@@ -4,7 +4,7 @@
 
 <div class="container mt-4">
 
-    <div class="d-flex justify-content-between mb-4">
+    <div class="d-flex justify-content-between mb-3 m-5">
         <h2>Workout Plans</h2>
 
         <a href="{% url 'add_plan' %}"
@@ -15,7 +15,7 @@
 
     <div class="row">
 
-        {% for plan in plans %}
+        <!-- {% for plan in plans %}
 
         <div class="col-md-4 mb-4">
 
@@ -63,8 +63,55 @@
 
         {% endfor %}
 
-    </div>
+    </div> -->
 
+
+
+    <div class="card table-card">
+
+        <div class="card-header bg-white">
+            <h5>Workout Plans List</h5>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Workout Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for plan in plans %}
+
+                    <tr>
+
+                        <td>{{ plan.day }}</td>
+                        <td>{{ plan.title }}</td>
+                        <td>{{ plan.description }}</td>
+                        <td>{{ plan.workout.workout_name }}</td>
+                        <td>
+                            <a href="" class="btn btn-success">Edit</a>
+                            <a href="" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 </div>
 
 {% endblock %}
